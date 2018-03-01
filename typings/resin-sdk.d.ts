@@ -566,7 +566,12 @@ declare namespace ResinSdk {
 
 		models: {
 			application: {
-				create(name: string, deviceType: string, parentNameOrId?: number | string): Promise<Application>;
+				create(options: {
+					name: string;
+					applicationType: number | string;
+					deviceType: string;
+					parent?: number | string;
+				}): Promise<Application>;
 				get(nameOrId: string | number, options?: PineOptionsFor<Application>): Promise<Application>;
 				getWithDeviceServiceDetails(
 					nameOrId: string | number,
