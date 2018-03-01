@@ -235,6 +235,7 @@ declare namespace ResinSdk {
 		is_accessible_by_support_until__date: string;
 		should_track_latest_release: boolean;
 
+		application_type: NavigationResource<ApplicationType>;
 		user: NavigationResource<User>;
 		depends_on__application: NavigationResource<Application>;
 
@@ -242,6 +243,19 @@ declare namespace ResinSdk {
 		owns__device: ReverseNavigationResource<Device>;
 		owns__release: ReverseNavigationResource<Release>;
 		is_depended_on_by__application: ReverseNavigationResource<Application>;
+	}
+
+	interface ApplicationType {
+		id: number;
+		name: string;
+		slug: string;
+		supports_gateway_mode: boolean;
+		supports_multicontainer: boolean;
+		supports_web_url: boolean;
+		is_legacy: boolean;
+		is_paid_only: boolean;
+		needs__os_version: string | null;
+		maximum_device_count: number | null;
 	}
 
 	type ReleaseStatus =
