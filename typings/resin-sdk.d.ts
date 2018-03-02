@@ -253,8 +253,8 @@ declare namespace ResinSdk {
 		supports_multicontainer: boolean;
 		supports_web_url: boolean;
 		is_legacy: boolean;
-		is_paid_only: boolean;
-		needs__os_version: string | null;
+		requires_payment: boolean;
+		needs__os_version_range: string | null;
 		maximum_device_count: number | null;
 	}
 
