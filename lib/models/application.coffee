@@ -414,10 +414,10 @@ getApplicationModel = (deps, opts) ->
 					$filter:
 						slug: applicationType
 			.get(0)
-			.get('id')
-			.tap (applicationTypeId) ->
-				if not applicationTypeId
+			.then (appType) ->
+				if not appType
 					throw new Error("Invalid application type: #{applicationType}")
+				appType.id
 
 		parentAppPromise = if parent
 			exports.get(parent, $select: [ 'id' ])
