@@ -719,7 +719,7 @@ resin.models.application.getById(89, function(error, application) {
 | --- | --- | --- |
 | options | <code>Object</code> | application creation parameters |
 | options.name | <code>String</code> | application name |
-| options.applicationType | <code>Number</code> \| <code>String</code> | application type slug or id |
+| [options.applicationType] | <code>String</code> | application type slug e.g. microservice-starter |
 | options.deviceType | <code>String</code> | device type slug |
 | [options.parent] | <code>Number</code> \| <code>String</code> | parent application name or id |
 

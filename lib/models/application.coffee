@@ -378,7 +378,7 @@ getApplicationModel = (deps, opts) ->
 	#
 	# @param {Object} options - application creation parameters
 	# @param {String} options.name - application name
-	# @param {(Number|String)} options.applicationType - application type slug or id
+	# @param {String} [options.applicationType] - application type slug e.g. microservice-starter
 	# @param {String} options.deviceType - device type slug
 	# @param {(Number|String)} [options.parent] - parent application name or id
 	#
@@ -404,8 +404,8 @@ getApplicationModel = (deps, opts) ->
 	exports.create = ({ name, applicationType, deviceType, parent }, callback) ->
 		callback = findCallback(arguments)
 
-		applicationTypePromise = if isId(applicationType)
-			Promise.resolve(applicationType)
+		applicationTypePromise = if !applicationType
+			Promise.resolve()
 		else
 			pine.get
 				resource: 'application_type'
@@ -436,7 +436,7 @@ getApplicationModel = (deps, opts) ->
 		])
 		.then ([
 			deviceManifest
-			applicationType
+			applicationTypeId
 			parentApplication
 		]) ->
 			if deviceManifest.state == 'DISCONTINUED'
@@ -446,12 +446,15 @@ getApplicationModel = (deps, opts) ->
 				depends_on__application: parentApplication.id
 			else {}
 
+			if applicationTypeId
+				assign extraOptions,
+					application_type: applicationTypeId
+
 			return pine.post
 				resource: 'application'
 				body:
 					assign
 						app_name: name
-						application_type: applicationType
 						device_type: deviceManifest.slug
 					, extraOptions
 		.asCallback(callback)

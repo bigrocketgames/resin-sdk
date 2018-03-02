@@ -582,7 +582,7 @@ declare namespace ResinSdk {
 			application: {
 				create(options: {
 					name: string;
-					applicationType: number | string;
+					applicationType?: string;
 					deviceType: string;
 					parent?: number | string;
 				}): Promise<Application>;
