@@ -35,10 +35,18 @@ describe 'Application Model', ->
 
 		describe 'resin.models.application.create()', ->
 
-
 			it 'should be able to create an application w/o providing an application type', ->
 				resin.models.application.create
 					name: 'FooBar'
+					deviceType: 'raspberry-pi'
+				.then ->
+					promise = resin.models.application.getAll()
+					m.chai.expect(promise).to.eventually.have.length(1)
+
+			it 'should be able to create an application with a specific application type', ->
+				resin.models.application.create
+					name: 'FooBar'
+					applicationType: 'microservice-starter'
 					deviceType: 'raspberry-pi'
 				.then ->
 					promise = resin.models.application.getAll()
@@ -51,22 +59,13 @@ describe 'Application Model', ->
 					deviceType: 'raspberry-pi'
 				.then (parentApplication) ->
 					resin.models.application.create
-						name: 'FooBar'
+						name: 'FooBarChild'
 						deviceType: 'generic'
 						parent: parentApplication.id
 				.then ->
 					resin.models.application.getAll()
 				.then ([ parentApplication, childApplication ]) ->
 					m.chai.expect(childApplication.depends_on__application.__id).to.equal(parentApplication.id)
-
-			it 'should be able to create an application with a specific application type', ->
-				resin.models.application.create
-					name: 'FooBar'
-					applicationType: 'microservice-starter'
-					deviceType: 'raspberry-pi'
-				.then ->
-					promise = resin.models.application.getAll()
-					m.chai.expect(promise).to.eventually.have.length(1)
 
 			it 'should be rejected if the application type is invalid', ->
 				promise = resin.models.application.create
